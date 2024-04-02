@@ -2,8 +2,8 @@
 
 {{-- Customize layout sections --}} 
 
-@section('subtitle', 'User') 
-@section('content_header_title', 'User') 
+@section('subtitle', 'Level') 
+@section('content_header_title', 'Level') 
 @section('content_header_subtitle', 'Create') 
 
 {{-- Content body: main page content --}} 
@@ -23,30 +23,30 @@
         <h3 class="card-title">Buat Level Baru</h3> 
         </div>
 
-        <form method="post" action="{{ route('m_user.store') }}">
+        <form method="post" action="{{ route('level.store') }}">
             <div class="card-body">
                 @csrf
                 <div class="col-xs-12 col-sm-12 col-md-12">
                     <div class="form-group">
-                        <strong>Username:</strong>
-                        <input type="text" name="username" class="form-control" placeholder="Masukkan username"></input>
-                    </div>
-                </div>
-                <div class="col-xs-12 col-sm-12 col-md-12">
+                        <strong>Level Kode:</strong>
+                        <input type="text" class="form-control @error('level_kode') is-invalid @enderror" 
+                        id="level_kode" name="level_kode" placeholder="Masukkan level kode">
+                        @error('level_kode')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
+                    </div>                    
                     <div class="form-group">
-                        <strong>Nama</strong>
-                        <input type="text" name="nama" class="form-control" placeholder="Masukkan nama"></input>
-                    </div>
-                </div>                    
-                <div class="col-xs-12 col-sm-12 col-md-12">
-                    <div class="form-group">
-                        <strong>Password</strong>
-                        <input type="password" name="password" class="form-control" placeholder="Masukkan password"></input>
+                        <strong>Level Nama:</strong>
+                        <input type="text" class="form-control @error('level_nama') is-invalid @enderror" 
+                        id="level_nama" name="level_nama" placeholder="Masukkan level nama">
+                        @error('level_nama')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
                     </div>
                 </div>
             </div>
             <div class="card-footer">
-                <a href="../m_user" class="btn btn-secondary">Kembali</a>
+                <a href="../level" class="btn btn-secondary">Kembali</a>
                 <button type="reset" class="btn btn-warning">Reset</button>
                 <button type="submit" class="btn btn-success">Submit</button>
             </div>
