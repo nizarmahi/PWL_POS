@@ -5,6 +5,7 @@ use App\Http\Controllers\LevelController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\UserController;
 use App\Models\KategoriModel;
+use App\Http\Controllers\POSController;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,3 +47,5 @@ Route::get('/kategori/update/{id}',[KategoriController::class,'update']);
 Route::put('/kategori/update_save/{id}',[KategoriController::class,'update_save']);
 
 Route::get('/kategori/destroy/{id}', [KategoriController::class, 'destroy']);
+
+Route::resource('m_user', POSController::class);

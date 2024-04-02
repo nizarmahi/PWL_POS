@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserRequest;
 use Illuminate\Http\Request;
-use App\Models\UserModel;
+use App\Models\m_user;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -17,20 +18,20 @@ class UserController extends Controller
     //     //     'password' => Hash::make('12345'), 
     //     // ];
 
-    //     // UserModel::insert($data); // tambahkan data ke tabel m_user
+    //     // m_user::insert($data); // tambahkan data ke tabel m_user
         
-    //     // coba akses model UserModel
-    //     // $user = UserModel::where('level_id', 1);
+    //     // coba akses model m_user
+    //     // $user = m_user::where('level_id', 1);
 
-    //     // $user = UserModel::findOr(20,['username','nama'], function(){
+    //     // $user = m_user::findOr(20,['username','nama'], function(){
     //     //     abort(404);
     //     // });
 
-    //     // $user = UserModel::where('username', 'manager9')->firstOrFail();
+    //     // $user = m_user::where('username', 'manager9')->firstOrFail();
 
-    //     // $user = UserModel::where('level_id', 2)->count();
+    //     // $user = m_user::where('level_id', 2)->count();
 
-    //     // $user = UserModel::firstOrCreate(
+    //     // $user = m_user::firstOrCreate(
     //     //     [
     //     //         'username' => 'manager22',
     //     //         'nama' => 'Manager Dua Dua',
@@ -39,7 +40,7 @@ class UserController extends Controller
     //     //     ]
     //     // );
         
-    //     // $user = UserModel::firstOrNew(
+    //     // $user = m_user::firstOrNew(
     //     //     [
     //     //         'username' => 'manager33',
     //     //         'nama' => 'Manager Tiga Tiga',
@@ -49,7 +50,7 @@ class UserController extends Controller
     //     // );
     //     // $user->save();
 
-    //     // $user = UserModel::create(
+    //     // $user = m_user::create(
     //     //     [
     //     //         'username' => 'manager55',
     //     //         'nama' => 'Manager Lima Lima',
@@ -74,7 +75,7 @@ class UserController extends Controller
     //     // $user->isClean(); // true 
     //     // dd ($user->isDirty());
 
-    //     // $user = UserModel::create(
+    //     // $user = m_user::create(
     //     //     [
     //     //         'username' => 'manager11',
     //     //         'nama' => 'Manager11',
@@ -92,11 +93,11 @@ class UserController extends Controller
     //     // $user->wasChanged ('nama'); // false
     //     // dd($user->wasChanged (['nama', 'username'])); // true
 
-    //     $user = UserModel::all();
+    //     $user = m_user::all();
     //     return view('user', ['data'=> $user]);
     // }
     public function index(){
-        $user = UserModel::with('level')->get();
+        $user = m_user::with('level')->get();
         return view('user', ['data'=> $user]);
     }
 
@@ -104,23 +105,37 @@ class UserController extends Controller
         return view('user_tambah');
     }  
     
-    public function tambah_simpan(Request $request){
-        UserModel::create([
-            'username' => $request->username,
-            'nama' => $request->nama,
-            'password' => Hash::make('$request->password'),
-            'level_id' => $request->level_id
-        ]);
-        return redirect('/user');
+    public function tambah_simpan(UserRequest $request){
+        $validated = $request->validated();
+
+        $validated = $request->safe()->only('username', 'nama', 'password');
+        $validated = $request->safe()->except('username', 'nama', 'password');
+
+        m_user::create($request->all());
+        return redirect('/user')->with('status','Data Berhasil Ditambahkan!');
+        // if(!$validated) {
+        //     return redirect()->back()
+        //         ->withErrors($request->validate())
+        //         ->withInput();
+        // }
+        // $pass = Hash::make($request->input('password'));
+        // $user = new m_user([
+        //     'username' => $request->input('username'),
+        //     'nama' => $request->input('nama'),
+        //     'password' => $pass,
+        //     'level_id' => $request->input('level')
+        // ]);
+        // $user->save();
+        // return redirect('/user')->with('sukses','Data Berhasil Di Tambahkan!');
     }
 
     public function ubah($id){
-        $user = UserModel::find($id);
+        $user = m_user::find($id);
         return view('user_ubah', ['data' => $user]);
     }
 
     public function ubah_simpan($id, Request $request){
-        $user = UserModel::find($id);
+        $user = m_user::find($id);
         
         $user->username = $request->username;
         $user->nama = $request->nama;
@@ -133,7 +148,7 @@ class UserController extends Controller
     }
 
     public function hapus($id){
-        $user = UserModel::find($id);
+        $user = m_user::find($id);
         $user->delete();
 
         return redirect('/user');

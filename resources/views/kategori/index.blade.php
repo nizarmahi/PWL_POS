@@ -1,21 +1,21 @@
-@extends('layouts.app')
+    @extends('layouts.app')
 
-{{-- Customize layout sections --}}
+    {{-- Customize layout sections --}}
 
-@section('subtitle', 'Kategori')
-@section('content_header_title', 'Home') 
-@section('content_header_subtitle', 'Kategori')
+    @section('subtitle', 'Kategori')
+    @section('content_header_title', 'Home') 
+    @section('content_header_subtitle', 'Kategori')
 
-@section('content')
-    <div class="container">
-        <div class="card">
-            <div class="card-header">Manage Kategori</div> <div class="card-body">
-                {{ $dataTable->table() }}
+    @section('content')
+        <div class="container">
+            <div class="card">
+                <div class="card-header">Manage Kategori</div> <div class="card-body">
+                    {{ $dataTable->table() }}
+                </div>
             </div>
         </div>
-    </div>
-@endsection
+    @endsection
 
-@push('scripts')
-    {{ $dataTable->scripts() }}
-@endpush
+    @push('scripts')
+        {{ $dataTable->scripts() }}
+    @endpush

@@ -334,6 +334,11 @@ return [
             'icon' => 'fas fa-fw fa-lock',
         ],
         [
+            'text' => 'User',
+            'url' => '/m_user',
+            'icon' => 'fas fa-fw fa-user',
+        ],
+        [
             'text' => 'kategori',
             'url' => '/kategori',
             'icon' => 'fas fa-fw fa-bolt',

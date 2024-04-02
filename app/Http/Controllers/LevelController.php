@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LevelRequest;
+use App\Models\LevelModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -19,5 +21,16 @@ class LevelController extends Controller
 
         $data = DB::select('select * from m_level');
         return view('level', ['data' => $data]);
+    }
+
+    public function store(LevelRequest $request){
+        $validated = $request->validated();
+
+        $validated = $request->safe()->only(['level_kode','level_nama']);
+        $validated = $request->safe()->except(['level_kode','level_nama']);
+
+        LevelModel::create($request->all());
+
+        return  redirect('/level')->with('status', 'Data Berhasil Ditambahkan!');
     }
 }
