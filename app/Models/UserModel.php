@@ -13,9 +13,24 @@ class UserModel extends Model implements Authenticatable
 {
     use HasFactory, AuthenticableTrait;
 
+    public function getJWTIdentifier(){
+        return $this->getKey();
+    }
+    public function getJWTCustomClaims() {
+        return [];
+    }
+
     protected $table = 'm_user';
     protected $primaryKey = 'user_id';
-    protected $fillable = ['level_id', 'username', 'nama', 'password'];
+    public $timespace = false;
+
+    protected $fillable = [
+        'level_id',
+        'user_id',
+        'username',
+        'nama',
+        'password'
+    ];
 
     public function level(): BelongsTo{
         return $this->belongsTo(LevelModel::class, 'level_id', 'level_id');
