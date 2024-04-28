@@ -2,14 +2,15 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\Authenticatable;
-use Illuminate\Auth\Authenticatable as AuthenticableTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Monolog\Level;
-
-class UserModel extends Model implements Authenticatable
+use Tymon\JWTAuth\Contracts\JWTSubject;
+use Illuminate\Auth\Authenticatable as AuthenticableTrait;
+use Illuminate\Foundation\Auth\User as  Authenticatable;
+// class UserModel extends Model implements Authenticatable
+class UserModel extends Authenticatable implements  JWTSubject
 {
     use HasFactory, AuthenticableTrait;
 
@@ -32,7 +33,7 @@ class UserModel extends Model implements Authenticatable
         'password'
     ];
 
-    public function level(): BelongsTo{
-        return $this->belongsTo(LevelModel::class, 'level_id', 'level_id');
-    }
+    // public function level(): BelongsTo{
+    //     return $this->belongsTo(LevelModel::class, 'level_id', 'level_id');
+    // }
 }
