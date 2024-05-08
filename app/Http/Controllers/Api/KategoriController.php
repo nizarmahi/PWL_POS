@@ -3,51 +3,51 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\LevelModel;
+use App\Models\KategoriModel;
 use Illuminate\Http\Request;
 
-class LevelController extends Controller
+class KategoriController extends Controller
 {
     public function index()
     {
-        return LevelModel::all();
+        return KategoriModel::all();
     }
 
     public function store(Request $request)
     {
-        $level = LevelModel::create($request->all());
+        $kategori = KategoriModel::create($request->all());
         return  response()->json([
-            "message" => "Successfully created level!",
-            "data" => $level
+            "message" => "Successfully created kategori!",
+            "data" => $kategori
         ],201);
     }
 
     public function show($id)
     {
-       $level= LevelModel::find($id);
-       if (is_null($level)) {
+       $kategori = KategoriModel::find($id);
+       if (is_null($kategori)) {
            return response()->json(['message' => 'No data found for the provided id'],  404);
        }else{
-           return response()->json(['data'=>$level]);
-        // return LevelModel::find($id);
+           return response()->json(['data'=>$kategori]);
+        // return KategoriModel::find($id);
        }
     }
 
     public function update(Request $request, $id)
     {
-        $level = LevelModel::findOrFail($id);
-        $level->update($request->all());
+        $kategori = KategoriModel::findOrFail($id);
+        $kategori->update($request->all());
 
         return response()->json([
-           'message' => 'Successfully updated level!',
-           'data' =>  $level
+           'message' => 'Successfully updated kategori!',
+           'data' =>  $kategori
         ]);
     }
 
     public function destroy($id){
         try {
-            $level = LevelModel::findOrFail($id);
-            $level -> delete();
+            $kategori = KategoriModel::findOrFail($id);
+            $kategori -> delete();
 
           return response()->json([
               "message"=>"Record deleted successfully!"

@@ -3,51 +3,51 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\LevelModel;
+use App\Models\BarangModel;
 use Illuminate\Http\Request;
 
-class LevelController extends Controller
+class BarangController extends Controller
 {
     public function index()
     {
-        return LevelModel::all();
+        return BarangModel::all();
     }
 
     public function store(Request $request)
     {
-        $level = LevelModel::create($request->all());
+        $barang = BarangModel::create($request->all());
         return  response()->json([
-            "message" => "Successfully created level!",
-            "data" => $level
+            "message" => "Successfully created barang!",
+            "data" => $barang
         ],201);
     }
 
     public function show($id)
     {
-       $level= LevelModel::find($id);
-       if (is_null($level)) {
+       $barang = BarangModel::find($id);
+       if (is_null($barang)) {
            return response()->json(['message' => 'No data found for the provided id'],  404);
        }else{
-           return response()->json(['data'=>$level]);
-        // return LevelModel::find($id);
+           return response()->json(['data'=>$barang]);
+        // return BarangModel::find($id);
        }
     }
 
     public function update(Request $request, $id)
     {
-        $level = LevelModel::findOrFail($id);
-        $level->update($request->all());
+        $barang = BarangModel::findOrFail($id);
+        $barang->update($request->all());
 
         return response()->json([
-           'message' => 'Successfully updated level!',
-           'data' =>  $level
+           'message' => 'Successfully updated barang!',
+           'data' =>  $barang
         ]);
     }
 
     public function destroy($id){
         try {
-            $level = LevelModel::findOrFail($id);
-            $level -> delete();
+            $barang = BarangModel::findOrFail($id);
+            $barang -> delete();
 
           return response()->json([
               "message"=>"Record deleted successfully!"

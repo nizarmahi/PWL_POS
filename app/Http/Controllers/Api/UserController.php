@@ -3,51 +3,51 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\LevelModel;
+use App\Models\UserModel;
 use Illuminate\Http\Request;
 
-class LevelController extends Controller
+class UserController extends Controller
 {
     public function index()
     {
-        return LevelModel::all();
+        return UserModel::all();
     }
 
     public function store(Request $request)
     {
-        $level = LevelModel::create($request->all());
+        $user = UserModel::create($request->all());
         return  response()->json([
-            "message" => "Successfully created level!",
-            "data" => $level
+            "message" => "Successfully created user!",
+            "data" => $user
         ],201);
     }
 
     public function show($id)
     {
-       $level= LevelModel::find($id);
-       if (is_null($level)) {
+       $user = UserModel::find($id);
+       if (is_null($user)) {
            return response()->json(['message' => 'No data found for the provided id'],  404);
        }else{
-           return response()->json(['data'=>$level]);
-        // return LevelModel::find($id);
+           return response()->json(['data'=>$user]);
+        // return UserModel::find($id);
        }
     }
 
     public function update(Request $request, $id)
     {
-        $level = LevelModel::findOrFail($id);
-        $level->update($request->all());
+        $user = UserModel::findOrFail($id);
+        $user->update($request->all());
 
         return response()->json([
-           'message' => 'Successfully updated level!',
-           'data' =>  $level
+           'message' => 'Successfully updated user!',
+           'data' =>  $user
         ]);
     }
 
     public function destroy($id){
         try {
-            $level = LevelModel::findOrFail($id);
-            $level -> delete();
+            $user = UserModel::findOrFail($id);
+            $user -> delete();
 
           return response()->json([
               "message"=>"Record deleted successfully!"
