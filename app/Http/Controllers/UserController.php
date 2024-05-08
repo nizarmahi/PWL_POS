@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UserRequest;
 use App\Models\LevelModel;
 use Illuminate\Http\Request;
-use App\Models\m_user;
+use App\Models\UserModel;
 use Illuminate\Support\Facades\Hash;
 use Psy\TabCompletion\Matcher\FunctionsMatcher;
 use Yajra\DataTables\DataTables;
@@ -26,11 +26,11 @@ class UserController extends Controller
         $level = LevelModel::all();
 
         return view('user.index', ['breadcrumb'=>$breadcrumb, 'page'=>$page, 'level'=> $level,'activeMenu'=>$activeMenu]);
-    } 
-    
+    }
+
     public function list(Request $request)
     {
-        $users = m_user::select('user_id', 'username', 'nama', 'level_id')->with('level');
+        $users = UserModel::select('user_id', 'username', 'nama', 'level_id')->with('level');
 
         if ($request->level_id) {
             $users->where('level_id', $request->level_id);
@@ -67,13 +67,13 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'username' => 'required|string|min:3|unique:m_user,username',
+            'username' => 'required|string|min:3|unique:UserModel,username',
             'nama' => 'required|string|max:100',
             'password' => 'required|min:5',
             'level_id' => 'required|integer',
         ]);
 
-        m_user::create([
+        UserModel::create([
             'username' => $request->username,
             'nama' => $request->nama,
             'password' => Hash::make('$request->password'),
@@ -86,7 +86,7 @@ class UserController extends Controller
 
     public function show(string $id)
     {
-        $user = m_user::with('level')->find($id);
+        $user = UserModel::with('level')->find($id);
 
         $breadcrumb = (object)[
             'title' => 'Detail User',
@@ -103,7 +103,7 @@ class UserController extends Controller
 
     public function edit(string $id)
     {
-        $user = m_user::find($id);
+        $user = UserModel::find($id);
         $level = LevelModel::all();
 
         $breadcrumb = (object)[
@@ -122,16 +122,16 @@ class UserController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'username' => 'required|string|min:3|unique:m_user,username,' . $id . ',user_id',
+            'username' => 'required|string|min:3|unique:UserModel,username,' . $id . ',user_id',
             'nama' => 'required|string|max:100',
             'password' => 'required|min:5',
             'level_id' => 'required|integer',
         ]);
 
-        m_user::find($id)->update([
+        UserModel::find($id)->update([
             'username' => $request->username,
             'nama' => $request->nama,
-            'password' => $request->password ? bcrypt($request->password) : m_user::find($id)->password,
+            'password' => $request->password ? bcrypt($request->password) : UserModel::find($id)->password,
             'level_id' => $request->level_id,
         ]);
 
@@ -140,13 +140,13 @@ class UserController extends Controller
 
     public function destroy(string $id)
     {
-        $check = m_user::find($id);
+        $check = UserModel::find($id);
         if (!$check) {
             return redirect('/user')->with('error', 'Data user tidak ditemukan');
         }
 
         try {
-            m_user::destroy($id);
+            UserModel::destroy($id);
 
             return redirect('/user')->with('success', 'Data user berhasil dihapus');
         } catch (\illuminate\Database\QueryException $e) {

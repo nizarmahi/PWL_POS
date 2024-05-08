@@ -15,15 +15,15 @@ class BarangController extends Controller
             'list' => ['Home', 'Barang'],
         ];
         $page = (object)[
-            'title' => 'Daftar Barang', 
+            'title' => 'Daftar Barang',
         ];
         $activeMenu = 'barang';
         $kategori = KategoriModel::all();
-        
+
         return view('barang.index', ['breadcrumb'=>$breadcrumb, 'page'=>$page, 'kategori'=>$kategori,'activeMenu'=>$activeMenu]);
     }
 
-    
+
     public function list(Request $request)
     {
         $BarangList = BarangModel::select('barang_id', 'kategori_id', 'barang_kode', 'barang_nama','harga_beli','harga_jual')
@@ -71,11 +71,11 @@ class BarangController extends Controller
         ]);
 
         BarangModel::create([
-            'kategori_id' => $request->kategori_id, 
-            'barang_kode' => $request->barang_kode,	
-            'barang_nama' => $request->barang_nama,	
-            'harga_beli' => $request->harga_beli,	
-            'harga_jual' => $request->harga_jual, 
+            'kategori_id' => $request->kategori_id,
+            'barang_kode' => $request->barang_kode,
+            'barang_nama' => $request->barang_nama,
+            'harga_beli' => $request->harga_beli,
+            'harga_jual' => $request->harga_jual,
         ]);
 
         return redirect('/barang')->with('success', 'Data barang berhasil disimpan');
@@ -91,7 +91,7 @@ class BarangController extends Controller
         $page =  (object)['title'=> "Detail Barang"];
         $show = true;
         $activeMenu = 'barang';
-        
+
         return view('barang.show', ['breadcrumb'=>$breadcrumb, 'page'=>$page, 'barang'=>$barang,'activeMenu'=>$activeMenu]);
     }
 
@@ -108,10 +108,10 @@ class BarangController extends Controller
         $activeMenu = 'barang';
 
         return view('barang.edit', [
-            'breadcrumb'=>$breadcrumb, 
-            'page'=>$page, 
-            'barang'=>$barang, 
-            'kategori'=>$kategori, 
+            'breadcrumb'=>$breadcrumb,
+            'page'=>$page,
+            'barang'=>$barang,
+            'kategori'=>$kategori,
             'activeMenu'=>$activeMenu
         ]);
     }
@@ -127,11 +127,11 @@ class BarangController extends Controller
         ]);
 
         BarangModel::find($id)->update([
-            'kategori_id' => $request->kategori_id, 
-            'barang_kode' => $request->barang_kode,	
-            'barang_nama' => $request->barang_nama,	
-            'harga_beli'  => $request->harga_beli,	
-            'harga_jual'  => $request->harga_jual, 
+            'kategori_id' => $request->kategori_id,
+            'barang_kode' => $request->barang_kode,
+            'barang_nama' => $request->barang_nama,
+            'harga_beli'  => $request->harga_beli,
+            'harga_jual'  => $request->harga_jual,
         ]);
 
         return redirect('/barang')->with('info', 'Data barang berhasil diubah');
@@ -146,7 +146,7 @@ class BarangController extends Controller
             BarangModel::destroy($id);
             // return response()->json(['status'=>200,'message'=>'data telah di hapus']);
             return redirect('/barang')->with('success','Data barang berhasil dihapus');
-            
+
         }catch(\Exception $e){
             // return response()->json(['status'=>500,'message'=>'Terjadi Kesalahan !']);
             return redirect('/barang')->with('error','Terjadi kesalahan saat menghapus data!');
