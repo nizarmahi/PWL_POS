@@ -19,6 +19,12 @@
                     <p>Dashboard</p>
                 </a>
             </li>
+            <li class="nav-item">
+                <a href="{{ url('/file-upload') }}" class="nav-link {{ ($activeMenu == 'file-upload')? 'active' : '' }} ">
+                    <i class="nav-icon fa fa-file-alt"></i>
+                    <p>Upload</p>
+                </a>
+            </li>
             <li class="nav-header">Data Pengguna</li>
             <li class="nav-item">
                 <a href="{{ url('/level') }}" class="nav-link {{ ($activeMenu == 'level')? 'active' : '' }} ">
@@ -60,4 +66,4 @@
             </li>
         </ul>
     </nav>
-</div>                 
+</div>
